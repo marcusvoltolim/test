@@ -14,14 +14,17 @@ jobs:
     steps:
       - name: 📥 Checkout Repo
         uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
+
+      - name: 🔄 "Fetch main and ${{ github.ref_name }}"
+        run: |
+          git fetch origin main
+          git fetch origin ${{ github.ref_name }}
 
       - name: 🚗 Create PR
         run: |
           git fetch origin main
           if ! OUTPUT=$(gh pr create \
-              --repo "$GITHUB_REPOSITORY" \
+              --repo "${{ github.repository }}" \
               --base main \
               --head "${{ github.ref_name }}" \
               --title "PR automatic from ${{ github.ref_name }} to main" \
