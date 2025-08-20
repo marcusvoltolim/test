@@ -1,0 +1,26 @@
+name: 0 - Create Pull Request to Main
+
+permissions:
+  pull-requests: write
+  contents: write
+
+on:
+  create: {}
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'branch' && startsWith(github.ref_name, 'draft') == false
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v5
+
+      - name: 🚗 Create PR
+        run: |
+          gh pr create \
+            --base main \
+            --head ${{ github.ref_name }} \
+            --title "PR automático de ${{ github.ref_name }}" \
+            --body "Este PR foi criado automaticamente na criação do branch."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
