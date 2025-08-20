@@ -19,6 +19,7 @@ jobs:
 
       - name: 🚗 Create PR
         run: |
+          git fetch origin main
           if ! OUTPUT=$(gh pr create \
               --repo "$GITHUB_REPOSITORY" \
               --base main \
