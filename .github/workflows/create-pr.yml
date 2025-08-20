@@ -23,7 +23,7 @@ jobs:
               --repo "$GITHUB_REPOSITORY" \
               --base main \
               --head "${{ github.ref_name }}" \
-              --title "PR automático ${{ github.ref_name }} -> main" \
+              --title "PR automatic from ${{ github.ref_name }} to main" \
               --fill-verbose \
               --assignee "${{ github.actor }}" \
               --reviewer "${{ github.actor }}" 2>&1); then
