@@ -1,7 +1,7 @@
 name: 0 - Create Pull Request to Main
 
 on:
-  push:
+  create:
     branches-ignore:
       - main
       - dev
@@ -19,7 +19,7 @@ jobs:
               --base main \
               --head "${{ github.ref_name }}" \
               --title "PR automatic from ${{ github.ref_name }} to main" \
-              --body "PR automatic from ${{ github.ref_name }} to main" \
+              --body "" \
               --assignee "${{ github.actor }}" \
               --reviewer "${{ github.actor }}" 2>&1); then
           
@@ -32,7 +32,7 @@ jobs:
                 exit 1
               fi
           else
-            echo "$OUTPUT"
+            echo "PR created: $OUTPUT"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

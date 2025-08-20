@@ -3,3 +3,6 @@
 out/
 gen/
 .vscode/
+*.log
+*.class
+*.jar
