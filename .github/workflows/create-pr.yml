@@ -1,26 +1,41 @@
 name: 0 - Create Pull Request to Main
 
-permissions:
-  pull-requests: write
-  contents: write
-
 on:
-  create: {}
+  push:
+    branches-ignore:
+      - main
+      - dev
+      - stg
+      - draft/**
 
 jobs:
-  create-pr:
+  create-pr-main:
     runs-on: ubuntu-latest
-    if: github.ref_type == 'branch' && startsWith(github.ref_name, 'draft') == false
     steps:
-      - name: 📥 Checkout
+      - name: 📥 Checkout Repo
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: 🚗 Create PR
         run: |
-          gh pr create \
-            --base main \
-            --head ${{ github.ref_name }} \
-            --title "PR automático de ${{ github.ref_name }}" \
-            --body "Este PR foi criado automaticamente na criação do branch."
+          if ! OUTPUT=$(gh pr create \
+              --repo "$GITHUB_REPOSITORY" \
+              --base main \
+              --head "${{ github.ref_name }}" \
+              --title "PR automático ${{ github.ref_name }} -> main" \
+              --fill-verbose \
+              --assignee "${{ github.actor }}" \
+              --reviewer "${{ github.actor }}" 2>&1); then
+          
+              if echo "$OUTPUT" | grep -q "No commits between main and"; then
+                echo "::warning::Não foi possível criar PR: nenhum commit novo entre main e ${{ github.ref_name }}."
+              else
+                echo "$OUTPUT"
+                exit 1
+              fi
+          else
+            echo "$OUTPUT"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
