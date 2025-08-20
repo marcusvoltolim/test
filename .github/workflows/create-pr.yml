@@ -6,7 +6,7 @@ on:
       - main
       - dev
       - stg
-      - draft/**
+      - draft**
 
 jobs:
   create-pr-main:
