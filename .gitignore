@@ -4,3 +4,4 @@ out/
 gen/
 .vscode/
 *.log
+*.class
