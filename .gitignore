@@ -6,3 +6,5 @@ gen/
 *.log
 *.class
 *.jar
+*.ear
+*.war
