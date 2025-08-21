@@ -2,11 +2,7 @@ name: 0 - Create Pull Request to Main
 
 on:
   create:
-    branches-ignore:
-      - main
-      - dev
-      - stg
-      - draft**
+    ref_type: branch
 
 jobs:
   create-pr-main:
@@ -20,8 +16,7 @@ jobs:
               --head "${{ github.ref_name }}" \
               --title "PR automatic from ${{ github.ref_name }} to main" \
               --body "" \
-              --assignee "${{ github.actor }}" \
-              --reviewer "${{ github.actor }}" 2>&1); then
+              --assignee "${{ github.actor }}" 2>&1); then
           
               if echo "$OUTPUT" | grep -q "No commits between main and"; then
                 echo "::warning::Could not create PR: no new commits between main and ${{ github.ref_name }}."
