@@ -1,6 +1,7 @@
 name: 1 - Test Pull Request
 
-on: [pull_request]
+on:
+  pull_request:
 
 jobs:
   cayena-pull-request:
