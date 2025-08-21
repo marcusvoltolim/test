@@ -8,3 +8,4 @@ gen/
 *.jar
 *.ear
 *.war
+*.db
